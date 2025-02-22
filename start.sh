@@ -7,9 +7,10 @@ set -eux
 
 cd `dirname $0`
 
+DATE=`date +%Y-%m-%d`
 FONT=Jost-Regular.ttf
 RESOLUTION=960x540
-OUTPUT_DIR=photos/`date +%Y-%m-%d`
+OUTPUT_DIR=photos/$DATE
 
 mkdir -p $OUTPUT_DIR
 
