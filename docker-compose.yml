@@ -1,0 +1,12 @@
+services:
+  caster:
+    build:
+      context: .
+      target: runner
+    volumes:
+      - ./:/work
+    working_dir: /work
+    command: bash
+    environment:
+      TZ: Asia/Tokyo
+    network_mode: "host" # Allow X server connection

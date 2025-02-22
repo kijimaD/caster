@@ -20,7 +20,3 @@
     - 1.png
     - 2.png
 ```
-
-## TODO
-
-- Docker用意する
