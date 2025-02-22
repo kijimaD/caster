@@ -1,7 +1,9 @@
+## 実行
+
 ```
-- ffmpeg version 6.1.1-3ubuntu5
-- exiftool
+make record
 ```
+して、録画が終わったら`q`キーで抜ける。変換が実行されて、webpとwebmが生成される。
 
 ## ディレクトリ
 
