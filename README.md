@@ -1,3 +1,7 @@
+```
+ffmpeg version 6.1.1-3ubuntu5
+```
+
 ## TODO
 
 - ディレクトリ構造
