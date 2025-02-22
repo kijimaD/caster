@@ -7,17 +7,17 @@ set -eux
 
 cd `dirname $0`
 
-DATE=`date +%Y-%m-%d`
-INPUT_DIR=photos/$DATE
-OUTPUT_BASE=output/$DATE
-OUTPUT_WEBP=$OUTPUT_BASE.webp
-OUTPUT_WEBM=$OUTPUT_BASE.webm
+date=`date +%Y-%m-%d`
+input_dir=photos/$date
+output_base=output/$date
+output_webp=$output_base.webp
+output_webm=$output_base.webm
 
 function exec()  {
     # $1: 出力先
 
     ffmpeg \
-        -pattern_type glob -i "$INPUT_DIR/screenshot_*.png" \
+        -pattern_type glob -i "$input_dir/screenshot_*.png" \
         -r 30 \
         -q:v 50 -compression_level 6 \
         -loop 0 \
@@ -27,8 +27,8 @@ function exec()  {
 }
 
 # 動画に変換する
-exec $OUTPUT_WEBP
-exec $OUTPUT_WEBM
+exec $output_webp
+exec $output_webm
 
 # 画像用のメタデータを追加する
-exiftool -CreateDate="`date +'%Y-%m-%d %H:%M:%S'`" -overwrite_original $OUTPUT_WEBP
+exiftool -CreateDate="`date +'%Y-%m-%d %H:%M:%S'`" -overwrite_original $output_webp
