@@ -1,5 +1,6 @@
 ```
-ffmpeg version 6.1.1-3ubuntu5
+- ffmpeg version 6.1.1-3ubuntu5
+- exiftool
 ```
 
 ## ディレクトリ
@@ -19,3 +20,7 @@ ffmpeg version 6.1.1-3ubuntu5
     - 1.png
     - 2.png
 ```
+
+## TODO
+
+- Docker用意する

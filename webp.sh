@@ -27,4 +27,6 @@ function exec()  {
 }
 
 exec $OUTPUT_WEBP
+exiftool -CreateDate="`date +'%Y-%m-%d %H:%M:%S'`" -overwrite_original $OUTPUT_WEBP
+
 exec $OUTPUT_WEBM
