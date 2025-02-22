@@ -1,9 +1,9 @@
 #!/bin/bash
 set -eux
 
-#####################
-# 今日の録画分を変換する
-#####################
+##########################
+# 今日の録画分を動画に変換する
+##########################
 
 cd `dirname $0`
 
@@ -26,7 +26,9 @@ function exec()  {
         $1
 }
 
+# 動画に変換する
 exec $OUTPUT_WEBP
-exiftool -CreateDate="`date +'%Y-%m-%d %H:%M:%S'`" -overwrite_original $OUTPUT_WEBP
-
 exec $OUTPUT_WEBM
+
+# 画像用のメタデータを追加する
+exiftool -CreateDate="`date +'%Y-%m-%d %H:%M:%S'`" -overwrite_original $OUTPUT_WEBP
