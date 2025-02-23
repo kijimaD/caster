@@ -18,7 +18,7 @@ mkdir -p $output_dir
 
 ffmpeg \
     -f x11grab \
-    -framerate 1/5 \
+    -framerate 1/2 \
     -i :0.0 \
     -s $resolution \
     -vf "drawtext=fontfile=$font: text='%{localtime}': fontcolor=white@1: fontsize=128: box=1: boxcolor=0x00000000@0.8: x=7: y=10" \

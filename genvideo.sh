@@ -7,6 +7,10 @@ set -eux
 # $ ./genvideo.sh 2025-02-22_22-04-23
 # webmは閲覧用にする。保存容量の制約があるので粗くする
 # webpは保存用にする。保存容量の制約がないのでそこまで粗くしない
+#
+# コーデックの参考
+# https://trac.ffmpeg.org/wiki/Encode/VP9
+# https://ffmpeg.org/ffmpeg-codecs.html#libwebp
 ######################################################
 
 cd `dirname $0`
@@ -22,29 +26,36 @@ output_webm=$output_base.webm
 # webm
 ffmpeg \
     -pattern_type glob -i "$input_dir/screenshot_*.png" \
-    -r 30 \
-    -q:v 100 -compression_level 6 \
-    -b:v 1000k \
-    -c:a libopus \
+    -r 20 \
+    -c:v libvpx-vp9 \
+    -crf 50 -b:v 0 \
+    -preset veryslow \
     -tile-columns 6 \
     -frame-parallel 1 \
     -row-mt 1 \
     -threads 16 \
-    -loop 0 \
+    -vf hue=s=0 \
+    -an \
+    -sn \
     -y \
     $output_webm
 
 # webp
 ffmpeg \
     -pattern_type glob -i "$input_dir/screenshot_*.png" \
-    -r 30 \
-    -q:v 50 -compression_level 6 \
+    -r 20 \
+    -c:v libwebp \
+    -q:v 10 \
+    -compression_level 6 \
+    -lossless 0 \
+    -quality 10 \
     -tile-columns 6 \
     -frame-parallel 1 \
     -row-mt 1 \
     -threads 16 \
     -loop 0 \
-    -preset picture \
+    -preset text \
+    -vf hue=s=0 \
     -y \
     $output_webp
 
