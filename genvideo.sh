@@ -49,4 +49,4 @@ ffmpeg \
     $output_webp
 
 # 画像用のメタデータを追加する
-exiftool -CreateDate="`date +'%Y-%m-%d %H:%M:%S'`" -overwrite_original $output_webp
+exiftool -CreateDate="`echo $target | sed -e "s/_/ /g"`" -overwrite_original $output_webp
