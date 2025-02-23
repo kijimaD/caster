@@ -1,12 +1,5 @@
 .DEFAULT_GOAL := help
 
-.PHONY: genvideo
-genvideo: ## 画像をまとめて動画を生成する
-	docker compose run --rm \
-	--user $(shell id -u):$(shell id -g) \
-	caster \
-	/bin/sh -c "./genvideo.sh"
-
 .PHONY: record
 record: ## 録画する
 	xhost +Local:* # Allow X server connection
