@@ -6,7 +6,7 @@ record: ## 録画する
 	docker compose run --rm \
 	--user $(shell id -u):$(shell id -g) \
 	caster \
-	/bin/sh -c "./record.sh"
+	/bin/sh -c "./scripts/record.sh"
 
 .PHONY: help
 help: ## ヘルプを表示する

@@ -14,6 +14,7 @@ set -eux
 ######################################################
 
 cd `dirname $0`
+cd ../
 
 # 変換元のディレクトリ名。通常はタイムスタンプが入る
 target=$1
@@ -22,6 +23,9 @@ input_dir=photos/$target
 output_base=output/$target
 output_webp=$output_base.webp
 output_webm=$output_base.webm
+
+start_date=`echo $target | sed -E 's/.+?_([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}-[0-9]{2}-[0-9]{2}).+?/\1/'`
+end_date=`ls $input_dir | sort -r | head -n 1 | sed -E 's/.+?_([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}-[0-9]{2}-[0-9]{2}).+?/\1/'`
 
 # webm
 ffmpeg \
@@ -37,6 +41,8 @@ ffmpeg \
     -vf hue=s=0 \
     -an \
     -sn \
+    -metadata start_time="$start_date" \
+    -metadata end_time="$end_date" \
     -y \
     $output_webm
 

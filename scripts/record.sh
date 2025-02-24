@@ -6,14 +6,15 @@ set -eux
 ############################
 
 cd `dirname $0`
+cd ../
 
-font=Jost-Regular.ttf
+font=resources/Jost-Regular.ttf
 resolution=960x540
 timestamp=%Y-%m-%dT%H-%M-%S
 
 # ディレクトリは実行時に決定する
-date=`date +$timestamp`
-output_dir=photos/$date
+start_date=`date +$timestamp`
+output_dir=photos/$start_date
 
 mkdir -p $output_dir
 
@@ -26,4 +27,6 @@ ffmpeg \
     -compression_level 100 \
     -strftime 1 "$output_dir/screenshot_$timestamp.png"
 
-./genvideo.sh $date
+end_date=`date +$timestamp`
+
+./scripts/genvideo.sh $start_date $end_date
