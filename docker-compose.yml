@@ -5,8 +5,13 @@ services:
       target: runner
     volumes:
       - ./:/work
+      # web cam
+      - /dev/video0:/dev/video0
     working_dir: /work
     command: bash
     environment:
       TZ: Asia/Tokyo
-    network_mode: "host" # Allow X server connection
+    # Allow X server connection
+    network_mode: "host"
+    # for /dev mount
+    privileged: true
