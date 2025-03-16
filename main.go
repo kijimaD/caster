@@ -14,17 +14,16 @@ const resolution = "960x540"
 const timestampFormatGo = "2006-01-02T15-04-05"
 const timeStampFormat = "%Y-%m-%dT%H-%M-%S"
 
-// const vdev0 = "/dev/video0"
-const vdev1 = "/dev/video1"
-const vdev2 = "/dev/video2"
-const vdev3 = "/dev/video3"
+// 2つごと割り当てられているので...
+const vdev0 = "/dev/video0"
+const vdev1 = "/dev/video2"
+const vdev2 = "/dev/video4"
+const vdev3 = "/dev/video6"
 
 var (
 	startDate = time.Now().Format(timestampFormatGo)
 	outputDir = fmt.Sprintf("photos/%s", startDate)
-	vdevs     = []string{
-		// vdev0,
-		vdev1, vdev2, vdev3}
+	vdevs     = []string{vdev0, vdev1, vdev2, vdev3}
 )
 
 func main() {
