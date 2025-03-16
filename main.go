@@ -28,6 +28,7 @@ var (
 
 func main() {
 	opts := []string{}
+	opts = append(opts, "ffmpeg")
 
 	// X11
 	opts = append(opts, "-f", "x11grab", "-framerate", "1/2", "-i", ":0.0")
@@ -44,7 +45,9 @@ func main() {
 	opts = append(opts, "-compression_level", "100")
 	opts = append(opts, "-s", resolution)
 	opts = append(opts, "-strftime", "1", fmt.Sprintf("%s/screenshot_%s.png", outputDir, timeStampFormat))
-	fmt.Print(strings.Join(opts, " "))
+
+	fmt.Println(fmt.Sprintf("mkdir -p %s", outputDir))
+	fmt.Println(strings.Join(opts, " "))
 }
 
 // 引数のデバイスで存在するものを返す
