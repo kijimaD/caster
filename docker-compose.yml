@@ -6,7 +6,7 @@ services:
     volumes:
       - ./:/work
       # web cam
-      - /dev/video0:/dev/video0
+      - /dev/:/dev/
     working_dir: /work
     command: bash
     environment:

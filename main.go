@@ -1,3 +1,4 @@
+// カメラデバイスに合わせてffmpeg録画コマンドを生成する
 package main
 
 import (
@@ -5,14 +6,10 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"time"
 )
 
 const font = "resources/Jost-Regular.ttf"
 const resolution = "960x540"
-
-const timestampFormatGo = "2006-01-02T15-04-05"
-const timeStampFormat = "%Y-%m-%dT%H-%M-%S"
 
 // 2つごと割り当てられているので...
 const vdev0 = "/dev/video0"
@@ -21,12 +18,19 @@ const vdev2 = "/dev/video4"
 const vdev3 = "/dev/video6"
 
 var (
-	startDate = time.Now().Format(timestampFormatGo)
-	outputDir = fmt.Sprintf("photos/%s", startDate)
-	vdevs     = []string{vdev0, vdev1, vdev2, vdev3}
+	vdevs = []string{vdev0, vdev1, vdev2, vdev3}
 )
 
 func main() {
+	fmt.Println(`#!/bin/bash
+set -eux
+
+#########################
+# generated record script
+# DO NOT EDIT
+# $1: output pattern
+#########################`)
+
 	opts := []string{}
 	opts = append(opts, "ffmpeg")
 
@@ -44,9 +48,7 @@ func main() {
 	opts = append(opts, "-filter_complex", fmt.Sprintf(`"%s"`, buildFilterOpts(devs)))
 	opts = append(opts, "-compression_level", "100")
 	opts = append(opts, "-s", resolution)
-	opts = append(opts, "-strftime", "1", fmt.Sprintf("%s/screenshot_%s.png", outputDir, timeStampFormat))
-
-	fmt.Println(fmt.Sprintf("mkdir -p %s", outputDir))
+	opts = append(opts, "-strftime", "1", "$1")
 	fmt.Println(strings.Join(opts, " "))
 }
 
@@ -69,9 +71,18 @@ func activeDevices(devs []string) ([]string, error) {
 // 0:vがX11でオーバーレイのベース
 func buildFilterOpts(devs []string) string {
 	overlayOpts := []string{}
+	// 初回は[0:v]
+	overlayTarget := "[0:v]"
 	for idx, _ := range devs {
-		setting := fmt.Sprintf("[%d:v]scale=60:45[small%d];[small%d]scale=320:240[cam%d];[0:v][cam%d]overlay=W-w-10:H-h-%d", idx+1, idx+1, idx+1, idx+1, idx+1, (idx+1)*10)
+		lastLabel := ""
+		if idx != len(devs)-1 {
+			// 最後の要素以外
+			lastLabel = fmt.Sprintf("[overlay%d]", idx+1)
+		}
+
+		setting := fmt.Sprintf("[%d:v]scale=60:45[small%d];[small%d]scale=320:240[cam%d];%s[cam%d]overlay=W-w-10:H%s-10%s", idx+1, idx+1, idx+1, idx+1, overlayTarget, idx+1, strings.Repeat("-h", idx+1), lastLabel)
 		overlayOpts = append(overlayOpts, setting)
+		overlayTarget = fmt.Sprintf("[overlay%d]", idx+1)
 	}
 
 	opts := []string{

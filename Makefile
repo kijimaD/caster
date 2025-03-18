@@ -2,6 +2,7 @@
 
 .PHONY: record
 record: ## 録画する
+	go run . > scripts/cmd.sh
 	xhost +Local:* # Allow X server connection
 	docker compose run --rm \
 	--user $(shell id -u):$(shell id -g) \
