@@ -31,6 +31,10 @@ set -eux
 # $1: output pattern
 #########################`)
 
+	fmt.Println(buildffmpegCmd())
+}
+
+func buildffmpegCmd() string {
 	opts := []string{}
 	opts = append(opts, "ffmpeg")
 
@@ -49,7 +53,8 @@ set -eux
 	opts = append(opts, "-compression_level", "100")
 	opts = append(opts, "-s", resolution)
 	opts = append(opts, "-strftime", "1", "$1")
-	fmt.Println(strings.Join(opts, " "))
+
+	return strings.Join(opts, " ")
 }
 
 // 引数のデバイスで存在するものを返す
@@ -85,10 +90,11 @@ func buildFilterOpts(devs []string) string {
 		overlayTarget = fmt.Sprintf("[overlay%d]", idx+1)
 	}
 
-	opts := []string{
-		strings.Join(overlayOpts, ";"),
-		fmt.Sprintf("drawtext=fontfile=%s: text='%%{localtime}': fontcolor=white@1: fontsize=128: box=1: boxcolor=0x00000000@0.8: x=7: y=10", font),
+	filterOpts := []string{}
+	if len(overlayOpts) > 0 {
+		filterOpts = append(filterOpts, strings.Join(overlayOpts, ";"))
 	}
+	filterOpts = append(filterOpts, fmt.Sprintf("drawtext=fontfile=%s: text='%%{localtime}': fontcolor=white@1: fontsize=128: box=1: boxcolor=0x00000000@0.8: x=7: y=10", font))
 
-	return strings.Join(opts, ",")
+	return strings.Join(filterOpts, ",")
 }
