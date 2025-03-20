@@ -85,7 +85,16 @@ func buildFilterOpts(devs []string) string {
 			lastLabel = fmt.Sprintf("[overlay%d]", idx+1)
 		}
 
-		setting := fmt.Sprintf("[%d:v]scale=60:45[small%d];[small%d]scale=320:240[cam%d];%s[cam%d]overlay=W-w-10:H%s-10%s", idx+1, idx+1, idx+1, idx+1, overlayTarget, idx+1, strings.Repeat("-h", idx+1), lastLabel)
+		setting := fmt.Sprintf("[%d:v]scale=60:45[small%d];[small%d]scale=320:240[cam%d];%s[cam%d]overlay=W-w-10:H%s-10%s",
+			idx+1,
+			idx+1,
+			idx+1,
+			idx+1,
+			overlayTarget,
+			idx+1,
+			strings.Repeat("-h-10", idx+1),
+			lastLabel,
+		)
 		overlayOpts = append(overlayOpts, setting)
 		overlayTarget = fmt.Sprintf("[overlay%d]", idx+1)
 	}
