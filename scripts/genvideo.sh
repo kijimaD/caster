@@ -30,7 +30,7 @@ end_date=`ls $input_dir | sort -r | head -n 1 | sed -E 's/.+?_([0-9]{4}-[0-9]{2}
 # webm
 ffmpeg \
     -pattern_type glob -i "$input_dir/screenshot_*.png" \
-    -r 20 \
+    -r 30 \
     -c:v libvpx-vp9 \
     -crf 50 -b:v 0 \
     -preset veryslow \
@@ -49,7 +49,7 @@ ffmpeg \
 # webp
 ffmpeg \
     -pattern_type glob -i "$input_dir/screenshot_*.png" \
-    -r 20 \
+    -r 30 \
     -c:v libwebp \
     -q:v 10 \
     -compression_level 6 \

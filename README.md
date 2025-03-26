@@ -24,3 +24,9 @@ make record
     - 1.png
     - 2.png
 ```
+
+## TODO
+
+mode=public make record
+
+というように、(非)公開用でコマンドを分ける。

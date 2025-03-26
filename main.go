@@ -1,4 +1,5 @@
 // カメラデバイスに合わせてffmpeg録画コマンドを生成する
+// カメラデバイスのフレームレートに注意。小さいカメラが含まれると間に合わなくて画像撮影間隔が飛ぶ
 package main
 
 import (
@@ -85,9 +86,7 @@ func buildFilterOpts(devs []string) string {
 			lastLabel = fmt.Sprintf("[overlay%d]", idx+1)
 		}
 
-		setting := fmt.Sprintf("[%d:v]scale=60:45[small%d];[small%d]scale=320:240[cam%d];%s[cam%d]overlay=W-w-10:H%s-10%s",
-			idx+1,
-			idx+1,
+		setting := fmt.Sprintf("[%d:v]scale=320:240[cam%d];%s[cam%d]overlay=W-w-10:H%s-10%s",
 			idx+1,
 			idx+1,
 			overlayTarget,
